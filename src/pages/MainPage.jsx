@@ -27,9 +27,12 @@ const MainPage = ({ setCountries, countries }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    handleSearch();
     if (!countries.length)
       axios.get(_ALL_COUNTRIES).then(({ data }) => setCountries(data));
+  }, [countries]);
+
+  useEffect(() => {
+    handleSearch();
   }, [countries]);
 
   return (
@@ -43,7 +46,7 @@ const MainPage = ({ setCountries, countries }) => {
             info: [
               {
                 title: "Population",
-                description: c.population,
+                description: c.population.toLocaleString("ru"),
               },
               {
                 title: "Region",

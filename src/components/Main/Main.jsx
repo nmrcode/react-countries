@@ -4,7 +4,7 @@ import { Container } from "../Container/Container";
 import { mediaVars } from "../mediaVars";
 
 const Wrapper = styled.main`
-  padding: 2rem 0;
+  padding: 2rem 0 5rem;
   @media (min-width: ${mediaVars.md}) {
     padding: 4rem 0;
   } ;
