@@ -15,6 +15,12 @@ const Button = styled.button`
   color: var(--colors-text);
 
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--colors-text);
+    color: var(--colors-ui-base);
+  }
 `;
 
 export default Button;

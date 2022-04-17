@@ -57,18 +57,12 @@ const ListItem = styled.li`
 const Meta = styled.div`
   margin-top: 3rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 1.5rem;
   flex-direction: column;
   align-items: flex-start;
 
   & > b {
     font-weight: var(--fw-bold);
-  }
-
-  @media (min-width: ${mediaVars.md}) {
-    flex-direction: row;
-    align-items: center;
-    gap: 1.5rem;
   }
 `;
 
@@ -79,11 +73,18 @@ const TagGroup = styled.div`
 `;
 
 const Tag = styled.span`
-  padding: 0 1rem;
+  padding: 0.5rem 1.5rem;
   background-color: var(--colors-ui-base);
   box-shadow: var(--shadow);
   line-height: 1.5;
   cursor: pointer;
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--colors-text);
+    color: var(--colors-ui-base);
+  }
 `;
 
 const Info = (props) => {
