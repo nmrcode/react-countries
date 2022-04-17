@@ -4,25 +4,44 @@ import { IoArrowBack } from "react-icons/io5";
 import axios from "axios";
 import { searchByCountry } from "../configAPI";
 import Button from "../components/Button/Button";
-import Info from "./Info";
+import Info from "../components/Info/Info";
+import * as PropTypes from "prop-types";
+import Spinner from "./Spinner";
+
+function View(props) {
+  return (
+    <>
+      <Button onClick={props.onClick}>
+        <IoArrowBack /> Back
+      </Button>
+      {props.country && <Info {...props.country} />}
+    </>
+  );
+}
 
 const Details = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [country, setCountry] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   useEffect(() => {
-    axios.get(searchByCountry(name)).then(({ data }) => {
-      setCountry(data[0]);
-    });
+    setLoading(true);
+    axios
+      .get(searchByCountry(name))
+      .then(({ data }) => {
+        setCountry(data[0]);
+      })
+      .finally(() => setLoading(false));
   }, [name]);
 
   return (
     <div>
-      <Button onClick={() => navigate(-1)}>
-        <IoArrowBack /> Back
-      </Button>
-      {country && <Info {...country} />}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <View onClick={() => navigate(-1)} country={country} />
+      )}
     </div>
   );
 };

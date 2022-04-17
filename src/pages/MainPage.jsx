@@ -5,9 +5,11 @@ import Card from "../components/Card/Card";
 import axios from "axios";
 import { _ALL_COUNTRIES } from "../configAPI";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 const MainPage = ({ setCountries, countries }) => {
   const [filtredCountries, setFiltredCountries] = useState(countries);
+  const [loading, setLoading] = useState(null);
 
   const handleSearch = (search, region) => {
     let data = [...countries];
@@ -27,8 +29,15 @@ const MainPage = ({ setCountries, countries }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!countries.length)
-      axios.get(_ALL_COUNTRIES).then(({ data }) => setCountries(data));
+    if (!countries.length) {
+      setLoading(true);
+      axios
+        .get(_ALL_COUNTRIES)
+        .then(({ data }) => {
+          setCountries(data);
+        })
+        .finally(() => setLoading(false));
+    }
   }, [countries]);
 
   useEffect(() => {
@@ -37,36 +46,42 @@ const MainPage = ({ setCountries, countries }) => {
 
   return (
     <>
-      <Controls onSearch={handleSearch} />
-      <List>
-        {filtredCountries.map((c) => {
-          const countryInfo = {
-            img: c.flags.png,
-            name: c.name.common,
-            info: [
-              {
-                title: "Population",
-                description: c.population.toLocaleString("ru"),
-              },
-              {
-                title: "Region",
-                description: c.region,
-              },
-              {
-                title: "Capital",
-                description: c.capital,
-              },
-            ],
-          };
-          return (
-            <Card
-              key={c.name.common}
-              onClick={() => navigate(`country/${c.name.common}`)}
-              {...countryInfo}
-            />
-          );
-        })}
-      </List>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Controls onSearch={handleSearch} />
+          <List>
+            {filtredCountries.map((c) => {
+              const countryInfo = {
+                img: c.flags.png,
+                name: c.name.common,
+                info: [
+                  {
+                    title: "Population",
+                    description: c.population.toLocaleString("ru"),
+                  },
+                  {
+                    title: "Region",
+                    description: c.region,
+                  },
+                  {
+                    title: "Capital",
+                    description: c.capital,
+                  },
+                ],
+              };
+              return (
+                <Card
+                  key={c.name.common}
+                  onClick={() => navigate(`country/${c.name.common}`)}
+                  {...countryInfo}
+                />
+              );
+            })}
+          </List>
+        </>
+      )}
     </>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { mediaVars } from "../components/mediaVars";
+import { mediaVars } from "../mediaVars";
 import axios from "axios";
-import { filterByCode } from "../configAPI";
+import { filterByCode } from "../../configAPI";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.section`
@@ -89,7 +89,6 @@ const Tag = styled.span`
 const Info = (props) => {
   const {
     name,
-    nativeName,
     flags,
     capital,
     population,
