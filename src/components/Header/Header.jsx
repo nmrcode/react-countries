@@ -40,17 +40,18 @@ const ThemeSwitcher = styled.div`
 `;
 
 const Header = () => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("currentTheme"));
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
     localStorage.setItem("currentTheme", theme === "light" ? "dark" : "light");
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   useEffect(() => {
-    const currentTheme = localStorage.getItem("currentTheme");
-    setTheme(currentTheme);
-    document.body.setAttribute("data-theme", currentTheme);
+    if (!theme) {
+      setTheme("light");
+    }
+    document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
